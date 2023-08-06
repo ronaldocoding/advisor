@@ -75,4 +75,25 @@ dependencies {
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+
+    // Koin
+    implementation("io.insert-koin:koin-android:3.4.2")
+    implementation("io.insert-koin:koin-android-compat:3.4.2")
+    implementation("io.insert-koin:koin-androidx-workmanager:3.2.2")
+    implementation("io.insert-koin:koin-androidx-navigation:3.4.2")
+    testImplementation("io.insert-koin:koin-test:3.4.1")
+    testImplementation("io.insert-koin:koin-test-junit4:3.4.1")
+
+    // Mockk
+    testImplementation("io.mockk:mockk-android:1.13.5")
+    testImplementation("io.mockk:mockk-agent:1.13.5")
 }
