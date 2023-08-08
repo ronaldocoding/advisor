@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Advisor</string>
+    <string name="initial_supporting_text">Click the button below to get a piece of advice</string>
+    <string name="advice_supporting_text">Did you like the advice? If you didn\'t like it or want more advice, click the button again!</string>
+    <string name="error_supporting_text">Something went wrong :( \n Please try again</string>
 </resources>
