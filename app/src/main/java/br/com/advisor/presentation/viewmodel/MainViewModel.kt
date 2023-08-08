@@ -1,5 +1,6 @@
 package br.com.advisor.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
@@ -18,14 +19,16 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(private val useCase: GetAdviceUseCase) : ViewModel(), MainAction {
 
-    private val _uiState = MutableLiveData<MainUiState>()
-    val uiState = _uiState.asFlow().asLiveData()
+    private val supportingTextResource = R.string.initial_supporting_text
+    private val uiModel = MainUiModel(supportingTextResource = supportingTextResource)
+    private val initialState = MainUiState.Initial(uiModel)
+    private val _uiState = MutableLiveData<MainUiState>(initialState)
+    val uiState = _uiState as LiveData<MainUiState>
 
     override fun sendAction(action: MainAction.Action) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 when (action) {
-                    is MainAction.Action.Initial -> handleInitial()
                     is MainAction.Action.OnClickGetAdviceButton -> handleOnClickGetAdviceButton()
                     is MainAction.Action.OnGetAdvice -> handleOnGetDevice()
                 }
@@ -33,15 +36,10 @@ class MainViewModel(private val useCase: GetAdviceUseCase) : ViewModel(), MainAc
         }
     }
 
-    private fun handleInitial() {
-        val supportingTextResource = R.string.initial_supporting_text
-        val uiModel = MainUiModel(supportingTextResource = supportingTextResource)
-        val uiState = MainUiState.Initial(uiModel)
-        _uiState.value = uiState
-    }
-
-    private fun handleOnClickGetAdviceButton() {
-        _uiState.value = MainUiState.Loading
+    private suspend fun handleOnClickGetAdviceButton() {
+        withContext(Dispatchers.Main) {
+            _uiState.value = MainUiState.Loading
+        }
     }
 
     private suspend fun handleOnGetDevice() {
@@ -52,7 +50,7 @@ class MainViewModel(private val useCase: GetAdviceUseCase) : ViewModel(), MainAc
 
     }
 
-    private fun handleAdviceState(advice: Advice) {
+    private suspend fun handleAdviceState(advice: Advice) {
         val supportingTextResource = R.string.advice_supporting_text
         val adviceText = advice.text
         val uiModel = MainUiModel(
@@ -60,13 +58,17 @@ class MainViewModel(private val useCase: GetAdviceUseCase) : ViewModel(), MainAc
             adviceText = adviceText
         )
         val uiState = MainUiState.Advice(uiModel)
-        _uiState.value = uiState
+        withContext(Dispatchers.Main) {
+            _uiState.value = uiState
+        }
     }
 
-    private fun handleErrorState() {
+    private suspend fun handleErrorState() {
         val supportingTextResource = R.string.error_supporting_text
         val uiModel = MainUiModel(supportingTextResource = supportingTextResource)
         val uiState = MainUiState.Error(uiModel)
-        _uiState.value = uiState
+        withContext(Dispatchers.Main) {
+            _uiState.value = uiState
+        }
     }
 }

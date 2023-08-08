@@ -35,12 +35,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `GIVEN Initial action was sent WHEN sendAction is called THEN must emit the Initial state`() =
+    fun `WHEN view model is created THEN uiState must be the Initial state`() =
         coroutineTestRule.runBlockingTest {
-            val action = MainAction.Action.Initial
-
-            viewModel.sendAction(action)
-
             val supportingTextResource = R.string.initial_supporting_text
             val uiModel = MainUiModel(supportingTextResource = supportingTextResource)
             val expectedState = MainUiState.Initial(uiModel)
