@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import br.com.advisor.R
@@ -33,15 +32,26 @@ import br.com.advisor.presentation.action.MainAction
 import br.com.advisor.presentation.state.MainUiState
 import br.com.advisor.presentation.viewmodel.MainViewModel
 import br.com.advisor.ui.theme.AdvisorTheme
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val UPDATE_CODE = 123
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
 
+    private lateinit var appUpdateManager: AppUpdateManager
+
+    private val updateType = AppUpdateType.IMMEDIATE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+        checkForAppUpdates()
         setContent {
             AdvisorTheme {
                 Surface(
@@ -50,6 +60,21 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AdviceScreen(viewModel = viewModel)
                 }
+            }
+        }
+    }
+
+    private fun checkForAppUpdates() {
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            val isUpdateAvailable = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateAllowed = info.isImmediateUpdateAllowed
+            if ( isUpdateAvailable && isUpdateAllowed) {
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    updateType,
+                    this,
+                    UPDATE_CODE
+                )
             }
         }
     }

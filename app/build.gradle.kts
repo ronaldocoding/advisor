@@ -103,4 +103,9 @@ dependencies {
 
     // OkHttp
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // In-App Update
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+
 }
