@@ -100,4 +100,7 @@ dependencies {
 
     // Core testing
     testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // OkHttp
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }
