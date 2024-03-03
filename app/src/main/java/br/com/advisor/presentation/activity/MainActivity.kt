@@ -33,6 +33,7 @@ import br.com.advisor.presentation.state.MainUiState
 import br.com.advisor.presentation.viewmodel.MainViewModel
 import br.com.advisor.ui.theme.AdvisorTheme
 import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
@@ -50,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         installSplashScreen()
         checkForAppUpdates()
         setContent {
