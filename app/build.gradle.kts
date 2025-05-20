@@ -94,6 +94,9 @@ dependencies {
     testImplementation("io.insert-koin:koin-test:3.4.1")
     testImplementation("io.insert-koin:koin-test-junit4:3.4.1")
 
+    // MlKit Translate
+    implementation("com.google.mlkit:translate:17.0.3")
+
     // Mockk
     testImplementation("io.mockk:mockk-android:1.13.5")
     testImplementation("io.mockk:mockk-agent:1.13.5")

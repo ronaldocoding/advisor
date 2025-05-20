@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 private const val UPDATE_CODE = 123
 
@@ -56,6 +58,10 @@ class MainActivity : ComponentActivity() {
         checkForAppUpdates()
         setContent {
             AdvisorTheme {
+                LaunchedEffect(Unit) {
+                    viewModel.sendAction(MainAction.Action.OnInit)
+                }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -70,7 +76,7 @@ class MainActivity : ComponentActivity() {
         appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
             val isUpdateAvailable = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
             val isUpdateAllowed = info.isImmediateUpdateAllowed
-            if ( isUpdateAvailable && isUpdateAllowed) {
+            if (isUpdateAvailable && isUpdateAllowed) {
                 appUpdateManager.startUpdateFlowForResult(
                     info,
                     updateType,

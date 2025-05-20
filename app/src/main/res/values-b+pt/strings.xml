@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Advisor</string>
+    <string name="advice_icon">Advice icon</string>
+    <string name="advice_button">Obter conselho</string>
+    <string name="initial_supporting_text">Clique no botão abaixo para obter um conselho</string>
+    <string name="advice_supporting_text">Você gostou do conselho? Se não gostou ou quer mais conselhos, clique no botão abaixo de novo!</string>
+    <string name="error_supporting_text">Algo deu errado :( \n Por favor tente novamente</string>
+</resources>
